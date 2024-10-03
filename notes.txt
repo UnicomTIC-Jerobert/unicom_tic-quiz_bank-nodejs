@@ -1,0 +1,7 @@
+* Tech stacks [html,css,javascript,node.js]
+* Teaches you file handling concepts (handling .json file)
+* complex logics
+
+
+* document contain everything needed for the project
+* document is there but there are some bugs , so we will fix those as we progress
