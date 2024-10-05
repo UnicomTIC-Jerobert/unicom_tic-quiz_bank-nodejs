@@ -19,6 +19,36 @@
                 "<link>"
             ],
             "correct": 1
+        },
+        {
+            "question": "Which HTML attribute is used to specify the URL of an image?",
+            "options": [
+                "src",
+                "href",
+                "alt",
+                "link"
+            ],
+            "correct": 0
+        },
+        {
+            "question": "What is the correct HTML element for the largest heading?",
+            "options": [
+                "<heading>",
+                "<h6>",
+                "<h1>",
+                "<header>"
+            ],
+            "correct": 2
+        },
+        {
+            "question": "Which tag is used to create a hyperlink in HTML?",
+            "options": [
+                "<link>",
+                "<a>",
+                "<href>",
+                "<url>"
+            ],
+            "correct": 1
         }
     ],
     "css": [
@@ -29,6 +59,46 @@
                 "font-color",
                 "text-color",
                 "background-color"
+            ],
+            "correct": 0
+        },
+        {
+            "question": "Which CSS property is used to change the background color of an element?",
+            "options": [
+                "background-color",
+                "color",
+                "background-image",
+                "background-style"
+            ],
+            "correct": 0
+        },
+        {
+            "question": "How do you add a comment in CSS?",
+            "options": [
+                "// This is a comment",
+                "<!-- This is a comment -->",
+                "/* This is a comment */",
+                "# This is a comment"
+            ],
+            "correct": 2
+        },
+        {
+            "question": "Which property is used to set the spacing between lines of text?",
+            "options": [
+                "line-height",
+                "letter-spacing",
+                "text-spacing",
+                "spacing"
+            ],
+            "correct": 0
+        },
+        {
+            "question": "Which CSS property controls the size of text?",
+            "options": [
+                "font-size",
+                "text-size",
+                "font-weight",
+                "text-style"
             ],
             "correct": 0
         }
