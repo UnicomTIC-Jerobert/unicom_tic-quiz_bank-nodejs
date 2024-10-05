@@ -14,6 +14,7 @@ const serveStaticFile = async (res, filePath, contentType) => {
         res.writeHead(200, { 'Content-Type': contentType });
         res.end(data);
     } catch (err) {
+        //throw(err);
         res.writeHead(404, { 'Content-Type': 'text/plain' });
         res.end('404 Not Found');
     }
@@ -44,6 +45,7 @@ const server = http.createServer(async (req, res) => {
             res.end('404 Not Found');
         }
     } catch (error) {
+        console.log(error);
         res.writeHead(500, { 'Content-Type': 'text/plain' });
         res.end('Internal Server Error');
     }
@@ -52,5 +54,5 @@ const server = http.createServer(async (req, res) => {
 
 // Start the server
 server.listen(port, () => {
-    console.log(`Server running on port ${port}`);
+    console.log(`Server running on port http://localhost:${port}`);
 });
