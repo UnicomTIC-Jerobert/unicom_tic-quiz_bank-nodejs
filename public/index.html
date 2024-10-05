@@ -9,30 +9,47 @@
 </head>
 
 <body>
-    <h1>Quiz App</h1>
-    <div id="quiz-container">
-        <h2 id="question"></h2>
-        <form id="quiz-form">
-            <div>
-                <input type="radio" name="option" id="option1" value="0">
-                <label for="option1" id="label1"></label>
+    <div class="container">
+        <div class="sidebar">
+            <h2>Categories</h2>
+            <ul>
+                <li onclick="selectCategory('html')">HTML</li>
+                <li onclick="selectCategory('css')">CSS</li>
+                <li onclick="selectCategory('javascript')">JavaScript</li>
+                <li onclick="selectCategory('sql')">SQL</li>
+                <li onclick="selectCategory('csharp')">C#</li>
+            </ul>
+        </div>
+
+        <div class="main-content">
+            <h1>Quiz App</h1>
+            <div id="quiz-container">
+                <p id="question-counter"></p>
+                <h2 id="question"></h2>
+                <form id="quiz-form">
+                    <div>
+                        <input type="radio" name="option" id="option1" value="0">
+                        <label for="option1" id="label1"></label>
+                    </div>
+                    <div>
+                        <input type="radio" name="option" id="option2" value="1">
+                        <label for="option2" id="label2"></label>
+                    </div>
+                    <div>
+                        <input type="radio" name="option" id="option3" value="2">
+                        <label for="option3" id="label3"></label>
+                    </div>
+                    <div>
+                        <input type="radio" name="option" id="option4" value="3">
+                        <label for="option4" id="label4"></label>
+                    </div>
+                    <button type="submit">Submit</button>
+                </form>
+                <p id="message"></p>
             </div>
-            <div>
-                <input type="radio" name="option" id="option2" value="1">
-                <label for="option2" id="label2"></label>
-            </div>
-            <div>
-                <input type="radio" name="option" id="option3" value="2">
-                <label for="option3" id="label3"></label>
-            </div>
-            <div>
-                <input type="radio" name="option" id="option4" value="3">
-                <label for="option4" id="label4"></label>
-            </div>
-            <button type="submit">Submit</button>
-        </form>
-        <p id="message"></p>
+        </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 

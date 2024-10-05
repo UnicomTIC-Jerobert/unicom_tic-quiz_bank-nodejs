@@ -3,16 +3,20 @@ let currentCategory = 'html'; // Can be changed to other categories like css, ja
 let questions = [];
 
 
-// Fetch questions from the server
-fetch('/questions')
-    .then(response => response.json())
-    .then(data => {
-        questions = data[currentCategory];
-        loadQuestion();
-    });
+// Function to load questions for the selected category
+async function loadQuestions(category) {
+    try {
+        const response = await fetch(`/questions?category=${category}`);
+        if (!response.ok) throw new Error('Failed to load questions');
+        questions = await response.json();
+        displayQuestions();
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
 
 
-function loadQuestion() {
+function displayQuestions() {
     const questionElement = document.getElementById('question');
     const optionLabels = [
         document.getElementById('label1'),
@@ -27,6 +31,10 @@ function loadQuestion() {
     optionLabels.forEach((label, index) => {
         label.textContent = question.options[index];
     });
+
+    const totalQuestions = questions.length;
+    const questionCounter = document.getElementById('question-counter');
+    questionCounter.innerText = `Question ${currentQuestionIndex + 1} of ${totalQuestions}`;
 }
 
 
@@ -48,7 +56,7 @@ document.getElementById('quiz-form').addEventListener('submit', function (e) {
         document.getElementById('message').textContent = 'Correct! Moving to next question.';
         currentQuestionIndex++;
         if (currentQuestionIndex < questions.length) {
-            loadQuestion();
+            displayQuestions();
         } else {
             document.getElementById('message').textContent = 'Quiz completed!';
         }
@@ -56,3 +64,14 @@ document.getElementById('quiz-form').addEventListener('submit', function (e) {
         document.getElementById('message').textContent = 'Incorrect, try again!';
     }
 });
+
+// Event handler for category selection
+function selectCategory(category) {
+    currentCategory = category;
+    currentQuestionIndex = 0; // Reset question index when category changes
+    loadQuestions(currentCategory);
+}
+
+
+// Load default category on page load
+loadQuestions(currentCategory);
