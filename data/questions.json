@@ -237,6 +237,56 @@
                 "Begin()"
             ],
             "correct": 0
+        },
+        {
+            "question": "Which keyword is used to handle exceptions in C#?",
+            "options": [
+                "try-catch",
+                "catch-try",
+                "exception-handler",
+                "throw-catch"
+            ],
+            "correct": 0
+        },
+        {
+            "question": "Which data type in C# is used to store a sequence of characters?",
+            "options": [
+                "char",
+                "string",
+                "text",
+                "sequence"
+            ],
+            "correct": 1
+        },
+        {
+            "question": "Which of the following is a value type in C#?",
+            "options": [
+                "int",
+                "string",
+                "class",
+                "object"
+            ],
+            "correct": 0
+        },
+        {
+            "question": "Which C# loop is used to iterate through a collection or array?",
+            "options": [
+                "for",
+                "foreach",
+                "while",
+                "do-while"
+            ],
+            "correct": 1
+        },
+        {
+            "question": "What is the correct way to declare a constant in C#?",
+            "options": [
+                "const int num = 10;",
+                "int const num = 10;",
+                "constant int num = 10;",
+                "int num = const 10;"
+            ],
+            "correct": 0
         }
     ]
 }
