@@ -5,3 +5,14 @@
 
 * document contain everything needed for the project
 * document is there but there are some bugs , so we will fix those as we progress
+
+problem:
+here im going to introduce number of attempts to answer question correctly
+
+solution:
+* in UI we have to introduce "Atempt : 0" like thing
+* we need to look in the code where user goes for wrong answer
+* we shall introduce [attemptCounter] variable
+	- but only counter is enough ???
+	- it should associate with question & with categories
+* finally quiz done a table should shown the question number with number of attempts

@@ -23,29 +23,52 @@
 
         <div class="main-content">
             <h1>Quiz App</h1>
-            <div id="quiz-container">
-                <p id="question-counter"></p>
-                <h2 id="question"></h2>
-                <form id="quiz-form">
-                    <div>
-                        <input type="radio" name="option" id="option1" value="0">
-                        <label for="option1" id="label1"></label>
+            <div>
+                <div id="quiz-container">
+                    <div class="quiz-header">
+                        <p id="question-counter"></p>
+                        <p id="attempt-counter">Attempts : 0</p>
                     </div>
-                    <div>
-                        <input type="radio" name="option" id="option2" value="1">
-                        <label for="option2" id="label2"></label>
-                    </div>
-                    <div>
-                        <input type="radio" name="option" id="option3" value="2">
-                        <label for="option3" id="label3"></label>
-                    </div>
-                    <div>
-                        <input type="radio" name="option" id="option4" value="3">
-                        <label for="option4" id="label4"></label>
-                    </div>
-                    <button type="submit">Submit</button>
-                </form>
-                <p id="message"></p>
+
+                    <h2 id="question"></h2>
+                    <form id="quiz-form">
+                        <div>
+                            <input type="radio" name="option" id="option1" value="0">
+                            <label for="option1" id="label1"></label>
+                        </div>
+                        <div>
+                            <input type="radio" name="option" id="option2" value="1">
+                            <label for="option2" id="label2"></label>
+                        </div>
+                        <div>
+                            <input type="radio" name="option" id="option3" value="2">
+                            <label for="option3" id="label3"></label>
+                        </div>
+                        <div>
+                            <input type="radio" name="option" id="option4" value="3">
+                            <label for="option4" id="label4"></label>
+                        </div>
+                        <button type="submit">Submit</button>
+                    </form>
+                    <p id="message"></p>
+                </div>
+
+                <div id="results-container">
+                    <h2>Your Results</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Question No.</th>
+                                <th>Number Of Attempts</th>
+                            </tr>
+                        </thead>
+                        <tbody id="results-body">
+
+                        </tbody>
+                    </table>
+
+
+                </div>
             </div>
         </div>
     </div>
