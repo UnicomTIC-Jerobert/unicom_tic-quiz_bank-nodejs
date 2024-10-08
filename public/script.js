@@ -27,6 +27,7 @@ function displayQuestions() {
 
     const questionElement = document.getElementById('question');
     const optionRadios = document.querySelectorAll('input[name="option"]');
+    document.getElementById('message').textContent = "";
 
     const optionLabels = [
         document.getElementById('label1'),
@@ -107,7 +108,6 @@ document.getElementById('quiz-form').addEventListener('submit', function (e) {
 
 
     if (userAnswer === correctAnswer) {
-        document.getElementById('message').textContent = 'Correct! Moving to next question.';
         let obj = { questionNumber: currentQuestionIndex + 1, numberOfAttempts: numberOfAttempts }
         attemptCounter.push(obj);
         currentQuestionIndex++;
