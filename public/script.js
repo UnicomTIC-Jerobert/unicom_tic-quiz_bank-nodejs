@@ -24,7 +24,10 @@ function displayQuestions() {
     quizContainerElem.style.display = 'block';
     resultsContainerElem.style.display = 'none';
     numberOfAttempts = 0;
+
     const questionElement = document.getElementById('question');
+    const optionRadios = document.querySelectorAll('input[name="option"]');
+
     const optionLabels = [
         document.getElementById('label1'),
         document.getElementById('label2'),
@@ -35,6 +38,12 @@ function displayQuestions() {
 
     const question = questions[currentQuestionIndex];
     questionElement.textContent = question.question;
+
+    //reset radio Buttons
+    optionRadios.forEach((radio, index) => {
+        radio["checked"] = false;
+    });
+
     optionLabels.forEach((label, index) => {
         label.textContent = question.options[index];
     });
