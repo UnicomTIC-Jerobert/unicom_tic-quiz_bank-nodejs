@@ -1,59 +1,64 @@
 let currentQuestionIndex = 0;
 let currentCategory = 'html'; // Can be changed to other categories like css, javascript, etc.
-let questions = [];
+let question = {};
 let attemptCounter = [];
 let numberOfAttempts = 0;
 
 const quizContainerElem = document.getElementById('quiz-container');
 const resultsContainerElem = document.getElementById('results-container');
 
-// Function to load questions for the selected category
-async function loadQuestions(category) {
+
+// Function to load a single question
+async function loadQuestion(category, questionIndex) {
     try {
-        const response = await fetch(`/questions?category=${category}`);
-        if (!response.ok) throw new Error('Failed to load questions');
-        questions = await response.json();
-        displayQuestions();
+        const response = await fetch(`/questions?category=${category}&index=${questionIndex}`);
+        if (!response.ok) throw new Error('Failed to load question');
+        question = await response.json();
+        console.log(question)
+        displayQuestion(question);
     } catch (error) {
         console.error('Error:', error);
     }
 }
 
 
-function displayQuestions() {
-    quizContainerElem.style.display = 'block';
-    resultsContainerElem.style.display = 'none';
-    numberOfAttempts = 0;
+function displayQuestion() {
+    if (currentQuestionIndex < question.total) {
+        quizContainerElem.style.display = 'block';
+        resultsContainerElem.style.display = 'none';
+        numberOfAttempts = 0;
 
-    const questionElement = document.getElementById('question');
-    const optionRadios = document.querySelectorAll('input[name="option"]');
-    document.getElementById('message').textContent = "";
+        const questionElement = document.getElementById('question');
+        const optionRadios = document.querySelectorAll('input[name="option"]');
+        document.getElementById('message').textContent = "";
 
-    const optionLabels = [
-        document.getElementById('label1'),
-        document.getElementById('label2'),
-        document.getElementById('label3'),
-        document.getElementById('label4')
-    ];
+        const optionLabels = [
+            document.getElementById('label1'),
+            document.getElementById('label2'),
+            document.getElementById('label3'),
+            document.getElementById('label4')
+        ];
+
+        questionElement.textContent = question.question;
+
+        //reset radio Buttons
+        optionRadios.forEach((radio, index) => {
+            radio["checked"] = false;
+        });
+
+        optionLabels.forEach((label, index) => {
+            label.textContent = question.options[index];
+        });
+
+        const totalQuestions = question.total;
+        const questionCounter = document.getElementById('question-counter');
+        questionCounter.innerText = `Question ${currentQuestionIndex + 1} of ${totalQuestions}`;
 
 
-    const question = questions[currentQuestionIndex];
-    questionElement.textContent = question.question;
-
-    //reset radio Buttons
-    optionRadios.forEach((radio, index) => {
-        radio["checked"] = false;
-    });
-
-    optionLabels.forEach((label, index) => {
-        label.textContent = question.options[index];
-    });
-
-    const totalQuestions = questions.length;
-    const questionCounter = document.getElementById('question-counter');
-    questionCounter.innerText = `Question ${currentQuestionIndex + 1} of ${totalQuestions}`;
-
-    displayAttempts();
+        displayAttempts();
+    } else {
+        displayResults()
+    }
 }
 
 function displayAttempts() {
@@ -61,9 +66,12 @@ function displayAttempts() {
     attemptCounter.innerText = `Attempts : ${numberOfAttempts}`;
 }
 
-function displayResults() {
+async function displayResults() {
     quizContainerElem.style.display = 'none';
     resultsContainerElem.style.display = 'block';
+
+    // Fetch attempt data by category
+    const attempts = await fetchAttemptsByCategory(currentCategory);
 
     // Get the tbody element
     const tbody = document.getElementById('results-body');
@@ -72,7 +80,7 @@ function displayResults() {
     tbody.innerHTML = '';
 
     // Iterate over attemptCounter array and create table rows
-    attemptCounter.forEach(attempt => {
+    attempts.forEach(attempt => {
         // Create a new row
         const row = document.createElement('tr');
 
@@ -104,34 +112,82 @@ document.getElementById('quiz-form').addEventListener('submit', function (e) {
 
 
     const userAnswer = parseInt(selectedOption.value);
-    const correctAnswer = questions[currentQuestionIndex].correct;
 
-
-    if (userAnswer === correctAnswer) {
-        let obj = { questionNumber: currentQuestionIndex + 1, numberOfAttempts: numberOfAttempts }
-        attemptCounter.push(obj);
-        currentQuestionIndex++;
-        if (currentQuestionIndex < questions.length) {
-            displayQuestions();
-        } else {
-            displayResults();
-            document.getElementById('message').textContent = 'Quiz completed!';
-        }
-    } else {
-        numberOfAttempts++;
-        displayAttempts();
-        document.getElementById('message').textContent = 'Incorrect, try again!';
-    }
+    // Send request to the server to verify answer
+    checkAnswer(userAnswer);
 });
+
+async function checkAnswer(userAnswer) {
+    try {
+
+        if (question.correct == userAnswer) {
+            // organizing attempt data for sent to server
+            let attemptData = {
+                questionNumber: currentQuestionIndex + 1,
+                numberOfAttempts: numberOfAttempts,
+                category: currentCategory,
+                timestamp: new Date().toISOString()
+            };
+
+            // Send the attempt data to the server
+            await saveAttemptData(attemptData);
+
+            // Move to the next question
+            currentQuestionIndex++;
+            loadQuestion(currentCategory, currentQuestionIndex);
+            document.getElementById('message').textContent = '';
+        } else {
+            numberOfAttempts++;
+            displayAttempts();
+            document.getElementById('message').textContent = 'Incorrect, try again!';
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+// Function to fetch attempts from the server
+async function fetchAttemptsByCategory(category) {
+    try {
+        const response = await fetch(`/attempts?category=${category}`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch attempts data');
+        }
+        return await response.json();  // Return parsed JSON data
+    } catch (error) {
+        console.error('Error fetching attempts:', error);
+        return [];  // Return empty array in case of an error
+    }
+}
+
+async function saveAttemptData(attemptData) {
+    try {
+        const response = await fetch('/save-attempt', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(attemptData)
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to save attempt data.');
+        }
+
+        const result = await response.json();
+        console.log(result.message); // Optional: Log the success message
+    } catch (error) {
+        console.error('Error saving attempt data:', error);
+    }
+}
 
 // Event handler for category selection
 function selectCategory(category) {
     currentCategory = category;
     currentQuestionIndex = 0; // Reset question index when category changes
     attemptCounter = [];
-    loadQuestions(currentCategory);
+    loadQuestion(currentCategory, currentQuestionIndex);
 }
 
-
-// Load default category on page load
-loadQuestions(currentCategory);
+// Load the first question on page load
+loadQuestion(currentCategory, currentQuestionIndex);
